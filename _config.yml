@@ -4,8 +4,8 @@
 
 # Site
 title: DeepCode
-subtitle: ''
-description: ''
+subtitle: '高岸为谷，深谷为陵'
+description: '这里记录了我在编程时遇到的一些问题，和解决这些问题的一些方法。还有一些是我对编程的一些看法观点，以及学习语言时的一些笔记和心得体会。'
 keywords:
 author: Dougaoyang
 language: zh-CN
@@ -13,7 +13,7 @@ timezone: 'Asia/Shanghai'
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://dougaoyang.github.io/
+url: https://dougaoyang.github.io
 root: /
 permalink: :year/:month/:day/:title.html
 permalink_defaults:
