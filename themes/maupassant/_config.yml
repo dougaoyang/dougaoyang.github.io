@@ -83,8 +83,8 @@ widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts
   - links
 
 links:
-  - title: E简设计
-    url: http://www.1ckt.com/
+  - title: 当当虾
+    url: https://www.jianshu.com/u/f133ca80001f
 
 timeline:
   - num: 1

@@ -4,7 +4,7 @@ title: JavaScript对象的嵌套成员对性能的影响
 date: 2015-01-20
 categories:
 - 技术
-description: 对象成员中可能会包含其他成员，例如全局对象window包含成员location，而location又包含其他成员。`window.location.href`，在这种写法中，没遇到一个点号，JavaScript 引擎就要在对象成员上执行一次解析过程。很明显，当成员嵌套越深，访问速度越慢。location.href总是快于 window.location.href，如果访问的不是对象的实例属性，那么，在这种写法中，没遇到一个点号，JavaScript 引擎还要在每个点上搜索原形链，这将需要更长时间。
+description: 对象成员中可能会包含其他成员，例如全局对象window包含成员location，而location又包含其他成员。window.location.href，在这种写法中，没遇到一个点号，JavaScript 引擎就要在对象成员上执行一次解析过程。很明显，当成员嵌套越深，访问速度越慢。location.href总是快于 window.location.href，如果访问的不是对象的实例属性，那么，在这种写法中，没遇到一个点号，JavaScript 引擎还要在每个点上搜索原形链，这将需要更长时间。
 ---
 
 ## 1.前言
