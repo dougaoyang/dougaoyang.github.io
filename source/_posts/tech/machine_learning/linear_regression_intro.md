@@ -4,7 +4,7 @@ title: 线性回归算法介绍
 date: 2019-12-29 13:00
 categories:
 - 技术
-description: 初步了解监督学习与非监督学习，以及应用场景..
+description: 线性回归算法的了解，一些机器学习中变量的含义，预测函数的作用。
 mathjax: true
 ---
 
