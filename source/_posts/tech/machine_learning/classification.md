@@ -1,10 +1,10 @@
 ---
 layout: post
-title: 分类和逻辑回归算法（Logistic Regression）
+title: 分类和逻辑回归模型（Logistic Regression）
 date: 2020-01-09 18:00
 categories:
 - 技术
-description: 了解分类算法的特点，以及S型函数的作用和决策边界在分类算法中的应用。
+description: 了解分类算法和逻辑回归模型的特点，以及S型函数的作用和决策边界在分类算法中的应用。
 mathjax: true
 ---
 
@@ -28,21 +28,21 @@ mathjax: true
 
 我们先忽略$y$是离散值，采用旧的线性回归算法来尝试预测$y$。 先使用线性回归的预测函数
 
-$$ h_\theta(x) = \theta_0x_0 + \theta_1x_1 = \theta^TX $$
+$$ h_\theta(x) = \theta_0x_0 + \theta_1x_1 = \theta^Tx $$
 
 这样得出的预测是一条直线，但是这样的预测函数，我们会得到$h_\theta > 1$或者$h_\theta < 0$的情况出现，这样的结果是不准确的。我们期望是有一个预测函数，它的输出值在0到1之间：
 
-$$ h_\theta(x) = g(\theta^TX) $$
+$$ h_\theta(x) = g(\theta^Tx) $$
 
 $g$函数是一个关于指数的S型函数（Sigmoid Function）：
 
 $$ g(z) = \frac{1}{1+e^{-z}} $$
 
-其中参数 $z=\theta^TX$
+其中参数 $z=\theta^Tx$
 
 所以分类问题的预测函数可以写成：
 
-$$ h_\theta(x) = \frac{1}{1+e^{-\theta^TX}} $$
+$$ h_\theta(x) = \frac{1}{1+e^{-\theta^Tx}} $$
 ![$g$函数的曲线图][2]
 
 这是$g$函数的曲线图，从图中，可以看出输出值的范围在0到1之间，这个满足我们需要的条件，当$z$越小是就无限趋向于0，反之则无限趋向于1。
@@ -63,13 +63,13 @@ $h(\theta)\geq 0.5 → y=1$
 $h(\theta)< 0.5 → y=0$
 
 当参数$z\geq 0$时，$g(z)\geq 0.5$，这样就要求:
-$\theta^TX \geq 0$
+$\theta^Tx \geq 0$
 
 所以预测结果可以写成：
-$\theta^TX \geq 0 → y=1$
-$\theta^TX < 0 → y=0$
+$\theta^Tx \geq 0 → y=1$
+$\theta^Tx < 0 → y=0$
 
-因此$\theta^TX$就是决策边界，当大于等于的就是$y=1$，当小于的就是$y=0$。
+因此$\theta^Tx$就是决策边界，当大于等于的就是$y=1$，当小于的就是$y=0$。
 
 例子：
 假如预测函数$h(\theta)=g(\theta_0+\theta_1x_1+\theta_2x_2)$，以及参数$(\theta_0,\theta_1,\theta_2)$分别为(-3,1,1)，这样这个预测函数的决策边界就是：
