@@ -16,7 +16,7 @@ $$ x \in \left[ \begin{matrix} x_0 \\\ x_1 \\\ x_2 \\\ ... \\\ x_n \end{matrix} 
 $$ h_\theta(x) = \frac{1}{1+e^{-\theta^Tx}} $$
 
 与线性回归类似，先要获得逻辑回归的代价函数：
-$$ J(\theta)=\frac{1}{m} \sum_1^m Cost(h_\theta(x^{(i)}), y^{(i)}) $$
+$$ J(\theta)=\frac{1}{m} \sum_{i=1}^m Cost(h_\theta(x^{(i)}), y^{(i)}) $$
 
 这个和线性回归的代价函数类似，只是替换了：
 $$ Cost(h_\theta(x), y) = \frac{1}{2} (h_\theta(x^{(i)})-y^{(i)})^2 $$
@@ -37,7 +37,7 @@ $$ Cost(h_\theta(x), y) = -y \log(h_\theta(x)) - (1-y) \log(1-h_\theta(x)) $$
 
 这样$\color{red}{逻辑回归的代价函数}$：
 
-$$ J(\theta)=-\frac{1}{m} \sum_1^m [y^{(i)} \log(h_\theta(x^{(i)})) + (1-y^{(i)}) \log(1-h_\theta(x^{(i)}))]  $$
+$$ J(\theta)=-\frac{1}{m} \sum_{i=1}^m [y^{(i)} \log(h_\theta(x^{(i)})) + (1-y^{(i)}) \log(1-h_\theta(x^{(i)}))]  $$
 
 用向量的形式来表示则是：
 
