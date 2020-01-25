@@ -45,6 +45,7 @@ post_asset_folder: false
 relative_link: false
 future: true
 mathjax: true
+mathjax2: true
 highlight:
   enable: true
   line_number: true
