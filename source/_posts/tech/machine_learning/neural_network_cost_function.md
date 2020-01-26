@@ -4,7 +4,7 @@ title: 神经网络代价函数和反向传播算法
 date: 2020-01-18 19:00
 categories:
 - 技术
-description: TODO
+description: 了解神经网络的代价函数，还有对代价函数求导的方法，反向传播算法的使用过程。
 mathjax: true
 ---
 
