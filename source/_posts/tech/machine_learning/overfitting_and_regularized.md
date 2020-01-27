@@ -55,7 +55,7 @@ $$ J(\theta) = \frac{1}{2m} \sum_{i=0}^m(h_\theta(x^{(i)})-y^{(i)})^2 +1000\cdot
 这样就给了一个正则化的思路。将关联小的特征值的参数趋向于0，使得预测函数从过拟合的状态修正过来。
 
 正则化后的代价函数为：
-$$ J(\theta)= \frac{1}{2m} \[\sum_{i=0}^m (h_\theta(x^{(i)})-y^{(i)})^2 + \lambda \sum_{j=1}^n\theta_j^2 \] $$
+$$ J(\theta)= \frac{1}{2m} \sum_{i=0}^m (h_\theta(x^{(i)})-y^{(i)})^2 + \lambda \sum_{j=1}^n\theta_j^2 ] $$
 
 其中$\lambda$为正则化参数，为了平衡代价函数。$\lambda$需要选择合适的值。
 
@@ -66,13 +66,13 @@ $$ J(\theta)= \frac{1}{2m} \[\sum_{i=0}^m (h_\theta(x^{(i)})-y^{(i)})^2 + \lambd
 梯度下降算法：
 重复 {
 $$ \theta_0 = \theta_0-\alpha\frac{1}{m} \sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})x_0^{(i)} $$
-$$ \theta_j = \theta_j -\alpha\[\frac{1}{m}\sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})x_j^{(i)} +\frac{\lambda}{m}\theta_j \], j \in \[1,2,3,...,n\] $$
+$$ \theta_j = \theta_j -\alpha [\frac{1}{m}\sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})x_j^{(i)} +\frac{\lambda}{m}\theta_j ], j \in [1,2,3,...,n] $$
 }
 
 同样的$\theta_0$不需要修正
 
 下面的式子可以稍作调整：
-$$ \theta_j = \theta_j(1-\alpha\frac{\lambda}{m}) -\alpha\frac{1}{m}\sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}, j \in \[1,2,3,...,n\] $$
+$$ \theta_j = \theta_j(1-\alpha\frac{\lambda}{m}) -\alpha\frac{1}{m}\sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}, j \in 1,2,3,...,n] $$
 
 可以看出$\theta_j$是在原来梯度下降的基础上有减去了$\alpha\frac{\lambda}{m}\theta_j$
 
@@ -87,7 +87,7 @@ $$ J(\theta)=-\frac{1}{m} \sum_{i=1}^m [y^{(i)} \log(h_\theta(x^{(i)})) + (1-y^{
 
 重复 {
 $$ \theta_0 = \theta_0-\alpha\frac{1}{m} \sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})x_0^{(i)} $$
-$$ \theta_j = \theta_j -\alpha\[\frac{1}{m}\sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})x_j^{(i)} +\frac{\lambda}{m}\theta_j \], j \in \[1,2,3,...,n\] $$
+$$ \theta_j = \theta_j -\alpha [\frac{1}{m}\sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})x_j^{(i)} +\frac{\lambda}{m}\theta_j ], j \in [1,2,3,...,n] $$
 }
 
 

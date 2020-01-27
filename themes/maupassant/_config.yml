@@ -83,7 +83,7 @@ widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts
   - links
 
 links:
-  - title: 当当虾
+  - title: 我的简书
     url: https://www.jianshu.com/u/f133ca80001f
 
 timeline:

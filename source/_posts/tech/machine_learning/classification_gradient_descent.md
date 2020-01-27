@@ -68,7 +68,7 @@ $$ \theta = \theta - \frac{\alpha}{m} X^T(h-y) $$
 $ \theta = \theta - \alpha\frac{1}{5} \cdot \left[ \begin{matrix}
 1 & 1 & 1 & 1 & 1 \\\ 34.62 & 30.29 & 35.85 & 60.18 & 79.03 \\\ 78.02 & 3.89 & 72.9 & 86.31 & 75.34
 \end{matrix} \right] \left[ \begin{matrix}
-0.5 - 0\\\0.5-0\\\0.5-0\\\0.5-1\\\0.5-1
+0.5 - 0 \\\ 0.5-0 \\\ 0.5-0 \\\ 0.5-1 \\\ 0.5-1
 \end{matrix} \right] = \left[ \begin{matrix}
 0 \\\ 0 \\\ 0
 \end{matrix} \right] - \alpha \cdot \left[ \begin{matrix}
