@@ -4,6 +4,8 @@ title: 过拟合（Overfitting）和正则化（Regularized）
 date: 2020-01-14 19:00
 categories:
 - 技术
+tags:
+- 算法优化
 description: 了解什么是欠拟合和过拟合，以及使用正则化来解决过拟合问题，正则化后的的代价函数和梯度下降算法的使用。
 mathjax: true
 ---

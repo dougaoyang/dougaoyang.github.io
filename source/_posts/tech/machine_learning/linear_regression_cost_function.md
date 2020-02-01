@@ -4,6 +4,8 @@ title: 线性回归代价函数 (Cost Function)
 date: 2019-12-29 14:00
 categories:
 - 技术
+tags:
+- 线性回归
 description: 了解代价函数的作用，以及通过最小化代价函数来得到最优的预测函数...
 mathjax: true
 ---

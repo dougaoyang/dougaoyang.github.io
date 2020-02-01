@@ -4,6 +4,8 @@ title: 逻辑回归模型的代价函数
 date: 2020-01-11 08:00
 categories:
 - 技术
+tags:
+- 逻辑回归
 description: 了解逻辑回归的代价函数方程
 mathjax: true
 ---

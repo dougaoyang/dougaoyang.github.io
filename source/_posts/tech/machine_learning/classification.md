@@ -4,6 +4,9 @@ title: 分类和逻辑回归模型（Logistic Regression）
 date: 2020-01-09 18:00
 categories:
 - 技术
+tags:
+- 分类
+- 逻辑回归
 description: 了解分类算法和逻辑回归模型的特点，以及S型函数的作用和决策边界在分类算法中的应用。
 mathjax: true
 ---

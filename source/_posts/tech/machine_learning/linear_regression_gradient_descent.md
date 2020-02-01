@@ -4,6 +4,8 @@ title: 梯度下降算法 (Gradient Descent)
 date: 2019-12-30 07:00
 categories:
 - 技术
+tags:
+- 线性回归
 description: 已知了代价函数 J,如何通过梯度下降来最小化代价函数，从而获得正确的预测函数。
 mathjax: true
 ---
