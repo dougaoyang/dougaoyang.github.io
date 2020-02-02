@@ -6,6 +6,7 @@ categories:
 - 技术
 tags:
 - 线性回归
+- 代价函数
 description: 了解代价函数的作用，以及通过最小化代价函数来得到最优的预测函数...
 mathjax: true
 ---

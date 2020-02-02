@@ -6,6 +6,7 @@ categories:
 - 技术
 tags:
 - 逻辑回归
+- 代价函数
 description: 了解逻辑回归的代价函数方程
 mathjax: true
 ---

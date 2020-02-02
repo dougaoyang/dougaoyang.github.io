@@ -6,6 +6,7 @@ categories:
 - 技术
 tags:
 - 神经网络
+- 代价函数
 description: 了解神经网络的代价函数，还有对代价函数求导的方法，反向传播算法的使用过程。
 mathjax: true
 ---
