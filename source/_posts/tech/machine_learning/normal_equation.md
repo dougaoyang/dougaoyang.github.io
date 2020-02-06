@@ -6,6 +6,7 @@ categories:
 - 技术
 tags:
 - 代价函数
+- 正规方程
 description: 使用正规方程来求解参数 $\theta$，以及正规方程和梯度下降算法的区别，两种算法在何时使用。
 mathjax: true
 ---
