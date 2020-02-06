@@ -4,6 +4,9 @@ title: 解决php处理jpg格式图片的问题
 date: 2014-10-23
 categories:
 - 技术
+tags:
+- PHP
+- 图片格式
 description: 这两天在使用wordpress的编辑图像功能时遇到一个问题，发现jpeg格式的图片在上传之后无法编辑，以为是代码的问题，后来重新安装wp后发现问题依旧，就猜想是不是环境的问题，于是就查看phpinfo的结果，发现在gd模块下ibjpeg version unknown，不能识别jpeg的版本，在网上搜索一番，终于找到了结果，拿来和大家分享，希望对有同样问题的同学有帮助...
 ---
 

@@ -134,13 +134,9 @@ div {
         }
         .tagcloud {
             margin-top: 10px;
-            display: flex;
-            flex-wrap: wrap;
             a {
                 line-height: 1.5;
-                padding: 3px 5px 0 5px;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                padding: 5px;
                 white-space: nowrap;
               }
         }

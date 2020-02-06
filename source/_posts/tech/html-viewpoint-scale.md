@@ -4,6 +4,8 @@ title: html移动端自适应宽度
 date: 2014-11-15
 categories:
 - 技术
+tags:
+- html
 description: wap2.0网页的head里加入下面这条元标签，在iPhone的浏览器中页面将以原始大小显示，并不允许缩放...
 ---
 

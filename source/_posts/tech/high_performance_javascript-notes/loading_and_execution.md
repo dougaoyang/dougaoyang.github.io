@@ -4,6 +4,8 @@ title: JavaScript脚本在HTML页面中的加载和运行情况
 date: 2015-01-15
 categories:
 - 技术
+tags:
+- Javascript
 description: HTML页面的加载速度与JavaScript的阻塞特性有着密切的关系，当JavaScript运行时其他的事情不能被浏览器处理，浏览器需要空闲下来等待JavaScript运行结束。
 ---
 

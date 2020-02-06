@@ -4,6 +4,8 @@ title: Pandas的索引转换为列数据
 date: 2017-09-22
 categories:
 - 技术
+tags:
+- pandas
 description: pandas索引放到列中
 ---
 

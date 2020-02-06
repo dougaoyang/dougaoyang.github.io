@@ -4,6 +4,8 @@ title: JavaScript作用域链分析
 date: 2015-01-16
 categories:
 - 技术
+tags:
+- Javascript
 description: 作用域概念是理解 JavaScript 的关键，不仅从性能的角度，而且从功能的角度。作用域对 JavaScript 有许多影响，从确定哪些变量可以被函数访问，到确定 this 的值。
 ---
 

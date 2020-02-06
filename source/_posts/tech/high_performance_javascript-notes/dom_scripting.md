@@ -4,6 +4,8 @@ title: JavaScript在访问和操作DOM对象的注意点
 date: 2015-01-22
 categories:
 - 技术
+tags:
+- Javascript
 description: 在浏览器中，DOM实现和JavaScript实现是保持相互独立的，这意味着两个独立的部分以功能接口连接就会带来性能损耗。每当 JavaScript 要访问DOM时，就需要调用接口。这个过程中就会产生性能损耗，次数越多，损耗越大。我们应该减少JavaScript 访问DOM的次数，尽量在JavaScript部分完成。
 ---
 

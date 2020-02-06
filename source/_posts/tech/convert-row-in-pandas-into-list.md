@@ -4,6 +4,8 @@ title: Pandas的行数据转换为列表
 date: 2017-09-22
 categories:
 - 技术
+tags:
+- pandas
 description: pandas行转换成list
 ---
 

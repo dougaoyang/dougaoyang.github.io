@@ -4,6 +4,8 @@ title: JavaScript流程控制对性能的影响
 date: 2015-01-29
 categories:
 - 技术
+tags:
+- Javascript
 description: 代码整体结构是执行速度的决定因素之一。 代码量少不一定运行速度快， 代码量多也不一定运行速度慢。性能损失与代码组织方式和具体问题解决办法直接相关
 ---
 

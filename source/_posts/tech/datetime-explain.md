@@ -4,6 +4,9 @@ title: Python时间日期处理
 date: 2017-09-21
 categories:
 - 技术
+tags:
+- python
+- datetime
 description: Python时间日期处理
 ---
 

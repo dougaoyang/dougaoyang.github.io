@@ -4,6 +4,9 @@ title: 使用load导出mysql表数据
 date: 2014-10-28
 categories:
 - 技术
+tags:
+- mysql
+- 导出数据
 description: 当我们需要备份数据库时，需要导出数据，我们一般是使用mysqldump命令来进行数据的导出，下面我们先来试验一下...
 ---
 

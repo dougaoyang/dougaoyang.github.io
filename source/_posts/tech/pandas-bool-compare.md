@@ -4,6 +4,8 @@ title: 'Pandas逻辑运算: The truth value of a Series is ambiguous'
 date: 2017-09-22
 categories:
 - 技术
+tags:
+- pandas
 description: pandas对于逻辑运算的解析
 ---
 
