@@ -5,7 +5,7 @@ date: 2020-01-27 14:00
 categories:
 - 技术
 tags:
-- 分类
+- 机器学习
 description: 如何解决偏斜类问题，查准率和召回率的定义以及使用，以及使用F值来判断一个学习算法的性能。
 mathjax: true
 ---

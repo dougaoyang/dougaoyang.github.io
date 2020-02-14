@@ -6,7 +6,6 @@ categories:
 - 技术
 tags:
 - vue
-- 项目部署
 description: vue-router有两种模式，默认是hash模式，通过URL的hash来模拟URL。hash模式生成的URL有点丑，还有另一种history模式，它是利用history.pushState API来模拟URL。这两种模式在开发环境下都没有什么太大的问题，但是当部署到生产环境中后，两者有所不同...
 ---
 

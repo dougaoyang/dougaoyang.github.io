@@ -5,6 +5,7 @@ date: 2020-01-03 21:00
 categories:
 - 技术
 tags:
+- 机器学习
 - 线性回归
 description: 多变量线性回归问题上梯度下降算法的使用，用向量形式表现预测函数。
 mathjax: true

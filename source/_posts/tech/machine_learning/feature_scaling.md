@@ -5,6 +5,7 @@ date: 2020-01-03 22:00
 categories:
 - 技术
 tags:
+- 机器学习
 - 算法优化
 description: 了解特征值缩放的两种方法，以及特征值缩放对梯度下降算法的帮助。
 mathjax: true

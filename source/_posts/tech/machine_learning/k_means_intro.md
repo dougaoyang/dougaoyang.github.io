@@ -5,7 +5,7 @@ date: 2020-02-06 13:00
 categories:
 - 技术
 tags:
-- 聚类
+- 机器学习
 - 非监督学习
 description: 了解非监督学习的概念，以及聚类算法中常用的K均值算法的使用。
 mathjax: true

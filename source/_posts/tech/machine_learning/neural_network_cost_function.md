@@ -5,8 +5,8 @@ date: 2020-01-18 19:00
 categories:
 - 技术
 tags:
+- 机器学习
 - 神经网络
-- 代价函数
 description: 了解神经网络的代价函数，还有对代价函数求导的方法，反向传播算法的使用过程。
 mathjax: true
 ---

@@ -5,7 +5,8 @@ date: 2020-02-01 08:00
 categories:
 - 技术
 tags:
-- 向量机
+- 机器学习
+- SVM
 description: 了解核函数的概念，高斯核函数的公式，以及核函数在支持向量机算法上的应用。
 mathjax: true
 ---

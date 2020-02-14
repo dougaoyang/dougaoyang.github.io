@@ -7,7 +7,6 @@ categories:
 - 技术
 tags:
 - bootstrap
-- modal
 description: 最近在公司更新一个项目是发现一个问题，就是bootstrap的模态框的data-remote属性没有效果，但是发现老项目里是有效果的，发现很奇怪，Google后终于发现问题所在，于是记录下来...
 ---
 

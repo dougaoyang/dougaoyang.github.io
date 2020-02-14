@@ -5,6 +5,8 @@ date: 2020-01-11 10:00
 categories:
 - 技术
 tags:
+- 机器学习
+- 监督学习
 - 逻辑回归
 description: 了解逻辑回归的梯度下降算法和公式，以及用向量化的方式来求解。
 mathjax: true

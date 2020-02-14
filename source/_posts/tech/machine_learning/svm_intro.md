@@ -5,7 +5,8 @@ date: 2020-01-31 11:00
 categories:
 - 技术
 tags:
-- 向量机
+- 机器学习
+- SVM
 description: 了解分类算法中一种强大的算法，支持向量机。以及它的代价函数说明。
 mathjax: true
 ---

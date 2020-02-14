@@ -5,7 +5,7 @@ date: 2015-01-15
 categories:
 - 技术
 tags:
-- Javascript
+- javascript
 description: 最近读了《高性能JavaScript》一书，感觉受益良多。发现以前书写js代码方面有着许多的误区和不足，对js的理解还不够深刻，特此记录下阅读该书的笔记和心得，望于各位共同进步。
 ---
 

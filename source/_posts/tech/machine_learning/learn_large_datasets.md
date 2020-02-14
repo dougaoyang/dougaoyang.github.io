@@ -5,7 +5,7 @@ date: 2020-02-09 10:00
 categories:
 - 技术
 tags:
-- 非监督学习
+- 机器学习
 description: 大量的数据对机器学习算法的研究很有帮助，当我们直到算法有较高的方差（variance）时，增加m会有助于改善算法。
 mathjax: true
 ---

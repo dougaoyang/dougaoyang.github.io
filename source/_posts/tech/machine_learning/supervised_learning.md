@@ -4,6 +4,8 @@ title: 监督学习与非监督学习
 date: 2019-12-29 12:00
 categories:
 - 技术
+tags:
+- 机器学习
 description: 初步了解监督学习与非监督学习，以及应用场景..
 ---
 

@@ -5,8 +5,7 @@ date: 2017-09-22
 categories:
 - 技术
 tags:
-- Django
-- datetime
+- django
 description: django中timezones问题offset-naive和offset-aware
 ---
 
