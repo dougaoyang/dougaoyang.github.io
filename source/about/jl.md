@@ -6,7 +6,7 @@ title: 关于我
 ### 窦高洋
 __152-9883-6751__  
 __[gaoydou@gmail.com](mailto:gaoydou@gmail.com) , [1239491470@qq.com](mailto:1239491470@qq.com)__  
-__<https://dougaoyang.github.io/>__
+__<https://codeeper.com/>__
 
 
 ### 教育背景
@@ -17,7 +17,10 @@ __<https://dougaoyang.github.io/>__
 
 __2018.12 - 至今：苏州研途教育科技有限公司，Python开发工程师__
 
-- TODO
+- 直播平台
+- 答疑管理系统
+- 仓储管理系统
+- 教务管理系统
 
 
 __2017.3 - 2018.12：北京友高教育科技有限公司，PHP高级开发工程师__
@@ -60,10 +63,6 @@ __2014.6 - 2015.5：江苏创龙信息技术有限公司，PHP工程师__
 - 班级学员的管理功能
 - 学员考试管理（限制做题时间并强制交卷）
 
-*众筹*
-
-- 网站的整体功能，包括众筹的发起、审核、参加众筹以及支付功能
-
 *新私学（公务员考试）*
 
 - 试题和试卷（文本格式）的上传，修改和审核功能
@@ -83,24 +82,14 @@ __2013.6 - 2014.5：苏州市学易软件有限公司，PHP工程师__
 - 邮件群发功能
 
 
-### 个人项目
-*微博爬虫分析系统*
-
-　　使用python requests库抓取微博信息，通过分析微博内容做成词云
-
-*PHP采集系统*
-
-　　类似于dede后台采集功能的一个系统，可以模拟各终端访问采集网站，能够动态添加采集节点和采集内容并且发布到指定网站的管理系统中。`PS:留学僧使用过该系统`
-
-
 ### 技术能力
-- 编程语言：熟悉PHP、JavaScript和HTML；了解Python，Django网站开发，简单数据处理和可视化；了解Node.js，小程序开发
+- 编程语言：熟悉Python，Django网站开发，简单数据处理和可视化；熟悉PHP、JavaScript和HTML；了解Node.js，小程序开发
 - 数据库：熟悉MySQL，了解MongoDB和Redis
-- 服务器：熟悉Apache和Nginx
+- 服务器：熟悉Nginx和Apache
 - 缓存机制：熟悉Memcache
 - 操作平台：Linux和Windows
-- 版本管理：SVN和Git
-- Web框架：ThinkPHP，CodeIgniter，Yii，slim
+- 版本管理：Git和SVN
+- Web框架：Django，laravel
 
 
 ### 致谢
