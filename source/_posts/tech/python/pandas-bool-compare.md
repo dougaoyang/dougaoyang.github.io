@@ -5,6 +5,7 @@ date: 2017-09-22
 categories:
 - 技术
 tags:
+- python
 - pandas
 description: pandas对于逻辑运算的解析
 ---
