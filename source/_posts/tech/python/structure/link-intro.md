@@ -54,16 +54,16 @@ class Node:
 class SingleLinkList:
     """单链表"""
     def __init__(self):
-        self.__head = None
+        self._head = None
 
     def is_empty(self):
         """链表是否为空"""
-        return self.__head == None
+        return self._head == None
 
     def length(self):
         """链表长度"""
         # cur游标，用来移动遍历结点
-        cur = self.__head
+        cur = self._head
         # count记录数量
         count = 0
         while cur != None:
@@ -73,7 +73,7 @@ class SingleLinkList:
 
     def travel(self):
         """遍历整个链表"""
-        cur = self.__head
+        cur = self._head
         while cur != None:
             print(cur.elem, end=" ")
             cur = cur.next
@@ -82,16 +82,16 @@ class SingleLinkList:
     def add(self, item):
         """链表头部添加元素，头插法"""
         node = Node(item)
-        node.next = self.__head
-        self.__head = node
+        node.next = self._head
+        self._head = node
 
     def append(self, item):
         """链表尾部添加元素, 尾插法"""
         node = Node(item)
         if self.is_empty():
-            self.__head = node
+            self._head = node
         else:
-            cur = self.__head
+            cur = self._head
             while cur.next != None:
                 cur = cur.next
             cur.next = node
@@ -105,7 +105,7 @@ class SingleLinkList:
         elif pos > (self.length()-1):
             self.append(item)
         else:
-            pre = self.__head
+            pre = self._head
             count = 0
             while count < (pos-1):
                 count += 1
@@ -117,14 +117,14 @@ class SingleLinkList:
 
     def remove(self, item):
         """删除结点"""
-        cur = self.__head
+        cur = self._head
         pre = None
         while cur != None:
             if cur.elem == item:
                 # 先判断此结点是否是头结点
                 # 头结点
-                if cur == self.__head:
-                    self.__head = cur.next
+                if cur == self._head:
+                    self._head = cur.next
                 else:
                     pre.next = cur.next
                 break
@@ -134,7 +134,7 @@ class SingleLinkList:
 
     def search(self, item):
         """查找结点是否存在"""
-        cur = self.__head
+        cur = self._head
         while cur != None:
             if cur.elem == item:
                 return True
@@ -173,36 +173,36 @@ class SingleLinkList:
 class SingleCycleLinkList:
     """单向循环链表"""
     def __init__(self):
-        self.__head = None
+        self._head = None
 
     def add(self, item):
         """链表头部添加元素，头插法"""
         node = Node(item)
         if self.is_empty():
-            self.__head = node
+            self._head = node
             node.next = node
         else:
-            cur = self.__head
-            while cur.next != self.__head:
+            cur = self._head
+            while cur.next != self._head:
                 cur = cur.next
             # 退出循环，cur指向尾结点
-            node.next = self.__head
-            self.__head = node
+            node.next = self._head
+            self._head = node
             # cur.next = node
-            cur.next = self.__head
+            cur.next = self._head
 
     def append(self, item):
         """链表尾部添加元素, 尾插法"""
         node = Node(item)
         if self.is_empty():
-            self.__head = node
+            self._head = node
             node.next = node
         else:
-            cur = self.__head
-            while cur.next != self.__head:
+            cur = self._head
+            while cur.next != self._head:
                 cur = cur.next
             # node.next = cur.next
-            node.next = self.__head
+            node.next = self._head
             cur.next = node
 
     def insert(self, pos, item):
@@ -214,7 +214,7 @@ class SingleCycleLinkList:
         elif pos > (self.length()-1):
             self.append(item)
         else:
-            pre = self.__head
+            pre = self._head
             count = 0
             while count < (pos-1):
                 count += 1
@@ -229,20 +229,20 @@ class SingleCycleLinkList:
         if self.is_empty():
             return
 
-        cur = self.__head
+        cur = self._head
         pre = None
 
-        while cur.next != self.__head:
+        while cur.next != self._head:
             if cur.elem == item:
                 # 先判断此结点是否是头结点
-                if cur == self.__head:
+                if cur == self._head:
                     # 头结点的情况
                     # 找尾结点
-                    rear = self.__head
-                    while rear.next != self.__head:
+                    rear = self._head
+                    while rear.next != self._head:
                         rear = rear.next
-                    self.__head = cur.next
-                    rear.next = self.__head
+                    self._head = cur.next
+                    rear.next = self._head
                 else:
                     # 中间结点
                     pre.next = cur.next
@@ -252,12 +252,12 @@ class SingleCycleLinkList:
                 cur = cur.next
         # 退出循环，cur指向尾结点
         if cur.elem == item:
-            if cur == self.__head:
+            if cur == self._head:
                 # 链表只有一个结点
-                self.__head = None
+                self._head = None
             else:
                 # pre.next = cur.next
-                pre.next = self.__head
+                pre.next = self._head
 ```
 
 其它的方法和单链表一样。
@@ -285,31 +285,31 @@ class Node(object):
 class DoubleLinkList(object):
     """双链表"""
     def __init__(self):
-        self.__head = None
-        self.__rear = None
+        self._head = None
+        self._rear = None
 
     def add(self, item):
         """链表头部添加元素，头插法"""
         node = Node(item)
         if self.is_empty():
-            self.__rear = node
+            self._rear = node
 
-        node.next = self.__head
-        self.__head = node
+        node.next = self._head
+        self._head = node
         node.next.prev = node
 
     def append(self, item):
         """链表尾部添加元素, 尾插法"""
         node = Node(item)
         if self.is_empty():
-            self.__head = node
+            self._head = node
         else:
-            cur = self.__head
+            cur = self._head
             while cur.next != None:
                 cur = cur.next
             cur.next = node
             node.prev = cur
-        self.__rear = node
+        self._rear = node
 
     def insert(self, pos, item):
         """指定位置添加元素
@@ -320,7 +320,7 @@ class DoubleLinkList(object):
         elif pos > (self.length()-1):
             self.append(item)
         else:
-            cur = self.__head
+            cur = self._head
             count = 0
             while count < pos:
                 count += 1
@@ -334,24 +334,24 @@ class DoubleLinkList(object):
 
     def remove(self, item):
         """删除节点"""
-        cur = self.__head
+        cur = self._head
         while cur != None:
             if cur.elem == item:
                 # 先判断此结点是否是头节点
                 # 头节点
-                if cur == self.__head:
-                    self.__head = cur.next
+                if cur == self._head:
+                    self._head = cur.next
                     if cur.next:
                         # 判断链表是否只有一个结点
                         cur.next.prev = None
                     else:
-                        self.__rear = None
+                        self._rear = None
                 else:
                     cur.prev.next = cur.next
                     if cur.next:
                         cur.next.prev = cur.prev
                     else:
-                        self.__rear = cur.prev
+                        self._rear = cur.prev
                 break
             else:
                 cur = cur.next
