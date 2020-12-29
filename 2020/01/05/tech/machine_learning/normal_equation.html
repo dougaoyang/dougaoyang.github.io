@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="这里记录了我在编程时遇到的一些问题，和解决这些问题的一些方法。还有一些是我对编程的一些看法观点，以及学习语言时的一些笔记和心得体会。"><title>正规方程（Normal Equation） | DeepCode</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">正规方程（Normal Equation）</h1><a id="logo" href="/.">DeepCode</a><p class="description">高岸为谷，深谷为陵</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/tags/"><i class="fa fa-tag"> 标签</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">正规方程（Normal Equation）</h1><div class="post-meta">Jan 5, 2020<span> | </span><span class="category"><a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><i class="fa fa-keyboard-o"></i><span class="post-count"> 802</span><span class="post-meta-item-text"> 字</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><i class="fa fa-hourglass-half"></i><span class="post-count"> 3</span><span class="post-meta-item-text"> 分钟</span></span></span></div><div class="post-content"><p>针对某些线性回归问题，除了梯度下降算法，有一个更好的方法来求出最优解，就是<strong>正规方程（Normal Equation）</strong></p>
+<p>与梯度下降算法采用求导，然后迭代计算的方法不同，正规方程采用的矩阵的求解，方便快捷，但也有一些弊端。</p>
+<p>房价的例子：</p>
+<table>
+<thead>
+<tr>
+<th align="left">$x_0$</th>
+<th align="left">尺寸$x_1$</th>
+<th align="left">房间数$x_2$</th>
+<th align="left">房屋年份$x_3$</th>
+<th align="left">价格$y$</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">2104</td>
+<td align="left">5</td>
+<td align="left">45</td>
+<td align="left">460</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="left">1416</td>
+<td align="left">3</td>
+<td align="left">40</td>
+<td align="left">232</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="left">1534</td>
+<td align="left">3</td>
+<td align="left">30</td>
+<td align="left">315</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="left">852</td>
+<td align="left">2</td>
+<td align="left">36</td>
+<td align="left">178</td>
+</tr>
+<tr>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+</tr>
+</tbody></table>
+<p>和之前不同的是，这个在前面加了一列$x_0$，而这一列的值都是1。</p>
+<p>下面用矩阵的形式来展现这个数据集：<br>$$ X=\left[ \begin{matrix} 1 &amp; 2104 &amp; 5 &amp; 45 \\ 1 &amp; 1416 &amp; 3 &amp; 40 \\ 1 &amp; 1534 &amp; 3 &amp; 30 \\ 1 &amp; 852 &amp; 2 &amp; 36 \end{matrix} \right], y=\left[ \begin{matrix} 460 \\ 232 \\ 315 \\ 178 \end{matrix} \right] $$</p>
+<p>$X$为$m \times (n+1)$维矩阵，$y$为$m$维向量</p>
+<p>正规方程的公式为：<br>$$ \theta=(X^TX)^{-1}X^Ty $$</p>
+<p>$X^T$ 是矩阵 $X$ 的转置，$(X^TX)^{-1}$ 是矩阵 $X^TX$ 的逆矩阵</p>
+<p>通过这个公式的到的$\theta$ 会最小化线性回归的代价函数 $J(\theta)$，和梯度下降算法不同的是，正规方程不需要采用特征值缩放。</p>
+<p><strong>何时采用正规方程，何时采用梯度下降</strong></p>
+<p>这是两种算法之间的差距</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">梯度下降</th>
+<th align="left">正规方程</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>学习率($\alpha$)</strong></td>
+<td align="left">需要选择学习率($\alpha$)</td>
+<td align="left">不需要学习率($\alpha$)</td>
+</tr>
+<tr>
+<td align="left"><strong>迭代</strong></td>
+<td align="left">需要迭代很多次</td>
+<td align="left">不需要迭代</td>
+</tr>
+<tr>
+<td align="left"><strong>复杂度</strong></td>
+<td align="left">$O(kn^2)$</td>
+<td align="left">$O(n^3)$，因为需要计算$(X^TX)^{-1}$</td>
+</tr>
+<tr>
+<td align="left"><strong>多特征值</strong></td>
+<td align="left">当特征值n非常大时，性能好</td>
+<td align="left">当特征值n非常大时，性能差</td>
+</tr>
+</tbody></table>
+<p>正规方程不需要选择学习率($\alpha$)，也不要迭代很多次，这点在计算的繁琐程度上是优于梯度下降的。<br>正规方程的劣势是在计算 $(X^TX)^{-1}$ 这个公式上面，$X$是一个$m \times (n+1)$的矩阵，那么$X^TX$则为$m$维的方阵，这个过程的复杂度相当于$O(n^2)$，在计算该矩阵的逆矩阵，就相当于$O(n^3)$的复杂度。当n很大时，正规方程的复杂度就比梯度下降大得多，也就更加耗时。</p>
+<p>用此当n较大时，选择梯度下降性能会更好；当n较小时，选择正规方程会更好的计算$\theta$。</p>
+<p>在实践中，当n超过10000时，可以考虑选择梯度下降算法。</p>
+<h2 id="关于逆矩阵的一些问题"><a href="#关于逆矩阵的一些问题" class="headerlink" title="关于逆矩阵的一些问题"></a>关于逆矩阵的一些问题</h2><p>在求解 $(X^TX)$ 的逆矩阵时，可能会遇到该矩阵不可逆，造成这种情况的原因是：</p>
+<ul>
+<li>在特征值中有冗余的特征，例如在预测房价中，有一列特征值是以平方英尺为单位计算的房子大小，又有一列是以平方米的单位来计算房子大小，这样两个特征值就是冗余的，两个只要取其中一个就好了；</li>
+<li>特征值过多，当特征值大于样本数时，即$m\leq n$。遇到这样的，删掉一个关联不大的特征值，或者使用正则化(regularization)来解决。</li>
+</ul>
+</div><div class="tags"><a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div><div class="post-nav"><a class="pre" href="/2020/01/09/tech/machine_learning/classification.html">分类和逻辑回归模型（Logistic Regression）</a><a class="next" href="/2020/01/03/tech/machine_learning/feature_scaling.html">特征值缩放</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/%E9%A9%AC%E6%8B%89%E6%9D%BE/" style="font-size: 10px;">马拉松</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/mysql/" style="font-size: 11.25px;">mysql</a> <a href="/tags/javascript/" style="font-size: 18.75px;">javascript</a> <a href="/tags/bootstrap/" style="font-size: 10px;">bootstrap</a> <a href="/tags/HTML/" style="font-size: 11.25px;">HTML</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">机器学习</a> <a href="/tags/%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/" style="font-size: 16.25px;">监督学习</a> <a href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" style="font-size: 12.5px;">逻辑回归</a> <a href="/tags/%E9%9D%9E%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">非监督学习</a> <a href="/tags/%E7%AE%97%E6%B3%95%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">算法优化</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" style="font-size: 13.75px;">线性回归</a> <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">神经网络</a> <a href="/tags/SVM/" style="font-size: 11.25px;">SVM</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/python/" style="font-size: 17.5px;">python</a> <a href="/tags/pandas/" style="font-size: 13.75px;">pandas</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 12.5px;">数据结构</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/24/tech/python/structure/str-search-and-kmp.html">字符串朴素匹配算法和KMP算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/03/tech/python/structure/josephus-solve.html">约瑟夫（Josephos）问题以及解法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/tech/python/structure/link-intro.html">链表介绍及python的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/09/tech/machine_learning/learn_large_datasets.html">在大数据下应用机器学习算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/08/tech/machine_learning/mini_batch_gradient_descent.html">小批量梯度下降算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/08/tech/machine_learning/stochastic_gradient_descent.html">随机梯度下降算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/08/tech/machine_learning/recommender_system.html">推荐系统和协同过滤算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/07/tech/machine_learning/anomaly_detection.html">异常检测（Anomaly Detection）</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/06/tech/machine_learning/dimensionality_reduction.html">PCA降维算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/06/tech/machine_learning/k_means_intro.html">K均值算法介绍</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://www.jianshu.com/u/f133ca80001f" title="爱吃鱼的夏侯莲子" target="_blank">爱吃鱼的夏侯莲子</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">DeepCode</a>&nbsp;|&nbsp;<a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener">苏ICP备20021898号-1</a>&nbsp;|&nbsp;<img class="nofancybox" src="../images/beian/icon.png" style="margin-bottom: -4px;"/><a href="http://www.beian.gov.cn/" target="_blank" rel="noopener">苏公网安备 32059002003042号</a><div class="ss"> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

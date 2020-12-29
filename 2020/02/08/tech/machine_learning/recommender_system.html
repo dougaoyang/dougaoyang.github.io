@@ -1,0 +1,209 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="这里记录了我在编程时遇到的一些问题，和解决这些问题的一些方法。还有一些是我对编程的一些看法观点，以及学习语言时的一些笔记和心得体会。"><title>推荐系统和协同过滤算法 | DeepCode</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">推荐系统和协同过滤算法</h1><a id="logo" href="/.">DeepCode</a><p class="description">高岸为谷，深谷为陵</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/tags/"><i class="fa fa-tag"> 标签</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">推荐系统和协同过滤算法</h1><div class="post-meta">Feb 8, 2020<span> | </span><span class="category"><a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><i class="fa fa-keyboard-o"></i><span class="post-count"> 1.9k</span><span class="post-meta-item-text"> 字</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><i class="fa fa-hourglass-half"></i><span class="post-count"> 8</span><span class="post-meta-item-text"> 分钟</span></span></span></div><div class="post-content"><p>推荐系统是目前非常流行的机器学习应用。<br>特征值对机器学习是非常重要的，而对特征值的选择会直接影响到算法的好坏，推荐系统能够自动帮助学习一些优良的特征值，帮助更好的实现算法。</p>
+<h2 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h2><p>以电影评分和推荐电影为例</p>
+<p>先定义几个变量：<br>$n_u$=用户人数<br>$n_m$=电影数量<br>$r(i,j)=1$ 表示用户$j$评价了电影$i$<br>$y(i,j)$= 用户$j$对电影$i$的评分，只有在$r(i,j)=1$的时候才会有</p>
+<p>首先电影评分分为0-5星。我们有4个用户和5部电影：</p>
+<table>
+<thead>
+<tr>
+<th align="left">电影</th>
+<th align="left">Alice(1)</th>
+<th align="left">Bob(2)</th>
+<th align="left">Carol(3)</th>
+<th align="left">Dave(4)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Love at last(1)</td>
+<td align="left">5</td>
+<td align="left">5</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">Romance forever(2)</td>
+<td align="left">5</td>
+<td align="left">?</td>
+<td align="left">?</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">Cute puppies of love(3)</td>
+<td align="left">?</td>
+<td align="left">4</td>
+<td align="left">0</td>
+<td align="left">?</td>
+</tr>
+<tr>
+<td align="left">Nonstop car chases(4)</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">5</td>
+<td align="left">4</td>
+</tr>
+<tr>
+<td align="left">Swords vs. karate(5)</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">5</td>
+<td align="left">?</td>
+</tr>
+</tbody></table>
+<p>上表中$n_u=4,n_m=5$，电影$i=1,2,3$为爱情片，$i=4,5$为动作片，打问号的表示没有评分。</p>
+<p>上面的表格中可以看到Alice和Bob对爱情电影评分很高，对动作片评分很低，Carol和Dave则相反。</p>
+<p>现在给每部电影添加两个特征值：$x_1$表示浪漫指数，$x_2$表示动作指数：</p>
+<table>
+<thead>
+<tr>
+<th>电影</th>
+<th>Alice(1)</th>
+<th>Bob(2)</th>
+<th>Carol(3)</th>
+<th>Dave(4)</th>
+<th>$x_1$(浪漫)</th>
+<th>$x_2$(动作)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Love at last(1)</td>
+<td>5</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0.9</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Romance forever(2)</td>
+<td>5</td>
+<td>?</td>
+<td>?</td>
+<td>0</td>
+<td>1</td>
+<td>0.01</td>
+</tr>
+<tr>
+<td>Cute puppies of love(3)</td>
+<td>?</td>
+<td>4</td>
+<td>0</td>
+<td>?</td>
+<td>0.99</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Nonstop car chases(4)</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+<td>4</td>
+<td>0.1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Swords vs. karate(5)</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+<td>?</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>用矩阵的形式来表示每个电影的特征值:<br>$ x^{(1)}=\left[ \begin{matrix} 0 \\ 0.9 \\ 0  \end{matrix} \right],<br>  x^{(2)}=\left[ \begin{matrix} 0 \\ 1 \\ 0.01  \end{matrix} \right],<br>  x^{(3)}=\left[ \begin{matrix} 0 \\ 0.99 \\ 0  \end{matrix} \right],<br>  x^{(4)}=\left[ \begin{matrix} 0 \\ 0.1 \\ 1  \end{matrix} \right],<br>  x^{(5)}=\left[ \begin{matrix} 0 \\ 0 \\ 1  \end{matrix} \right] $</p>
+<p>想要预测问号的值，这是一个线性回归的问题。<br>对于用户$j$来说，要预测他对电影$i$的评分值，应用线性回归的模型，当通过算法获得来一个参数$\theta^{(j)}$，通过这个参数，计算$(\theta^{(j)})^T \cdot x^{(i)}$，即可预测出评分值。</p>
+<p>假设要预测用户1对电影3的评分：用户1的参数$\theta^{(1)} = \left[ \begin{matrix} 0 \\ 5 \\ 0  \end{matrix} \right]$，计算他对电影3的评分：$(\theta^{(1)})^T \cdot x^{(3)} = 4.95$，即可预测他的评分为5星。</p>
+<p>下面就是对每个用户，应用线性回归模型即可预测出他们对电影的评分。</p>
+<p>用公式来表示一下：<br>对一个用户$j$，他的线性回归公式：<br>$$ min_{\theta^{(j)}} = \frac{1}{2m^{(j)}} \sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)} - y^{(i,j)})^2 + \frac{\lambda}{2m^{(j)}}\sum_{k=1}^n(\theta_k^{(j)})^2 $$<br>这就是常用的线性回归模型。</p>
+<p>下面在公式上约去常数$m^{(j)}$项，这并不影响最小化代价函数：<br>$$ min_{\theta^{(j)}} = \frac{1}{2} \sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)} - y^{(i,j)})^2 + \frac{\lambda}{2}\sum_{k=1}^n(\theta_k^{(j)})^2 $$</p>
+<p>然后计算所有用户加在一起的代价函数公式：<br>$$ min_{\theta^{(1)},…,\theta^{(n_u)}} = \frac{1}{2} \sum_{j=1}^{n_u} \sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)} - y^{(i,j)})^2 + \frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^n(\theta_k^{(j)})^2 $$</p>
+<p>对该公式应用梯度下降求最小值：<br>当$k=0$：<br>$$ \theta_k^{(j)} := \theta_k^{(j)} - \alpha \left(  \sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)} - y^{(i,j)})x_k^{(i)} \right) $$</p>
+<p>当$k \not= 0$：<br>$$ \theta_k^{(j)} := \theta_k^{(j)} - \alpha \left(  \sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)} - y^{(i,j)})x_k^{(i)} + \lambda\theta_k^{(j)} \right) $$</p>
+<h2 id="协同过滤（Collaborative-Filtering）"><a href="#协同过滤（Collaborative-Filtering）" class="headerlink" title="协同过滤（Collaborative Filtering）"></a>协同过滤（Collaborative Filtering）</h2><p>在一个电影网站中，很难去获得一部电影的浪漫指数和动作指数是多少，这个参数很难人为的去判断。为了解决这个问题，可以使用特征寻找器（<em>feature finders.</em>）</p>
+<p>现在我们不知道电影的特征值是多少,$ x^{(i)}=\left[ \begin{matrix} 0 \\ ? \\ ?  \end{matrix} \right]$，但是我们通过某种途径得知用户对各种类型电影的喜爱程度，是喜欢动作电影还是喜欢爱情电影。$\theta_1$表示喜欢爱情电影的参数，$\theta_2$表示喜欢动作电影的参数</p>
+<table>
+<thead>
+<tr>
+<th>电影</th>
+<th>Alice(1)</th>
+<th>Bob(2)</th>
+<th>Carol(3)</th>
+<th>Dave(4)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Love at last(1)</td>
+<td>5</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Romance forever(2)</td>
+<td>5</td>
+<td>?</td>
+<td>?</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Cute puppies of love(3)</td>
+<td>?</td>
+<td>4</td>
+<td>0</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Nonstop car chases(4)</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Swords vs. karate(5)</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+<td>?</td>
+</tr>
+<tr>
+<td>$\theta_1$(浪漫)</td>
+<td>5</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>$\theta_2$(动作)</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+</tr>
+</tbody></table>
+<p>用矩阵的形式来表示每个用户的关于电影特征的参数值:<br>$ \theta^{(1)}=\left[ \begin{matrix} 0 \\ 5 \\ 0  \end{matrix} \right],<br>  \theta^{(2)}=\left[ \begin{matrix} 0 \\ 5 \\ 0  \end{matrix} \right],<br>  \theta^{(3)}=\left[ \begin{matrix} 0 \\ 0 \\ 5  \end{matrix} \right],<br>  \theta^{(4)}=\left[ \begin{matrix} 0 \\ 0 \\ 5  \end{matrix} \right]$</p>
+<p>对一个电影$i$，要获得它的特征值$ x^{(i)}=\left[ \begin{matrix} ? \\ ? \\ ?  \end{matrix} \right]$，也可以看作一个线性回归问题。<br>同样的预测函数可以写作：$h = (\theta^{(j)})^T \cdot x^{(i)} = (x^{(i)})^T \cdot \theta^{(j)} $</p>
+<p>那么对一个电影$i$，它的代价函数则是：<br>$$ min_{x^{(i)}} = \frac{1}{2} \sum_{j:r(i,j)=1}((\theta^{(j)})^Tx^{(i)} - y^{(i,j)})^2 + \frac{\lambda}{2}\sum_{k=1}^n(x_k^{(i)})^2 $$</p>
+<p>然后计算所有电影加在一起的代价函数公式：<br>$$ min_{x^{(1)},…,x^{(n_m)}} = \frac{1}{2}  \sum_{i=1}^{n_m} \sum_{j:r(i,j)=1}((\theta^{(j)})^Tx^{(i)} - y^{(i,j)})^2 + \frac{\lambda}{2}\sum_{i=1}^{n_m}\sum_{k=1}^n(x_k^{(i)})^2 $$</p>
+<p>同样的应用梯度下降来最小化代价函数。</p>
+<p>通过上面的说明：<br>当我们有电影的特征值$x$时，可以预测出用户的属性$\theta$；当有用户的属性$\theta$可以预测出电影的特征值$x$，这样交替运行，就可以使系统更加完善。这就是基本的协同过滤算法。</p>
+<h2 id="算法公式"><a href="#算法公式" class="headerlink" title="算法公式"></a>算法公式</h2><p>将上面的两个式子合并，同时最小化特征值和参数：<br>$$ J(x,\theta)=\frac{1}{2} \sum_{(i,j):r(i,j)=1}((\theta^{(j)})^Tx^{(i)} - y^{(i,j)})^2 +  \frac{\lambda}{2}\sum_{i=1}^{n_m}\sum_{k=1}^{n}(x_k^{(i)})^2  +  \frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^{n}(\theta_k^{(j)})^2  $$</p>
+<p><em>PS：该式子中的$x$和$\theta$都是n维的向量，它们的偏差单元$x_0$和$\theta_0$都被移除了。</em></p>
+<h3 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h3><ol>
+<li>随机初始化$x^{(1)},…,x^{(n_m)},\theta^{(1)},…,\theta^{(n_u)}$一个很小的值。</li>
+<li>使用梯度下降算法来最小化代价函数$J$。</li>
+</ol>
+<p>$$ x_k^{(i)} :=  x_k^{(i)} - \alpha \frac{\partial}{\partial x_k^{(i)} }J(x,\theta) := x_k^{(i)} - \alpha \left(  \sum_{j:r(i,j)=1}((\theta^{(j)})^Tx^{(i)} - y^{(i,j)})x_k^{(i)} + \lambda x_k^{(i)} \right) $$</p>
+<p>$$ \theta_k^{(j)} :=  x_k^{(i)} - \alpha \frac{\partial}{\partial \theta_k^{(j)} }J(x,\theta) := \theta_k^{(j)} - \alpha \left(  \sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)} - y^{(i,j)})x_k^{(i)} + \lambda\theta_k^{(j)} \right) $$</p>
+<p>这样下来可以对用户尚未评分的电影，通过预测评分大小来推荐电影。<br>对用户已评分的电影，可以根据评分和用户的属性参数来获得更好的电影特征值。</p>
+<h2 id="其他应用"><a href="#其他应用" class="headerlink" title="其他应用"></a>其他应用</h2><p>协同过滤算法还可以用来推荐相似的产品，假如当用户看了一个电影$i$之后，可以判断其他电影和该电影的相似度来推荐，相似度的公式为$||x^{(i)} - x^{(j)}||$，当该式子越小时相似度越高，就可以据此来推荐电影。</p>
+<h2 id="其他事项"><a href="#其他事项" class="headerlink" title="其他事项"></a>其他事项</h2><p>在上述电影网站中，除了上面的四个用户，又有一个新用户加入，他没有对任何电影评分，要预测他对某一个电影的评分，通常采用的方法取评过该电影评分的平均值$\mu$来当作预测值。</p>
+</div><div class="tags"><a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a href="/tags/%E9%9D%9E%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/">非监督学习</a></div><div class="post-nav"><a class="pre" href="/2020/02/08/tech/machine_learning/stochastic_gradient_descent.html">随机梯度下降算法</a><a class="next" href="/2020/02/07/tech/machine_learning/anomaly_detection.html">异常检测（Anomaly Detection）</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/%E9%A9%AC%E6%8B%89%E6%9D%BE/" style="font-size: 10px;">马拉松</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/mysql/" style="font-size: 11.25px;">mysql</a> <a href="/tags/javascript/" style="font-size: 18.75px;">javascript</a> <a href="/tags/bootstrap/" style="font-size: 10px;">bootstrap</a> <a href="/tags/HTML/" style="font-size: 11.25px;">HTML</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">机器学习</a> <a href="/tags/%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/" style="font-size: 16.25px;">监督学习</a> <a href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" style="font-size: 12.5px;">逻辑回归</a> <a href="/tags/%E9%9D%9E%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">非监督学习</a> <a href="/tags/%E7%AE%97%E6%B3%95%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">算法优化</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" style="font-size: 13.75px;">线性回归</a> <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">神经网络</a> <a href="/tags/SVM/" style="font-size: 11.25px;">SVM</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/python/" style="font-size: 17.5px;">python</a> <a href="/tags/pandas/" style="font-size: 13.75px;">pandas</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 12.5px;">数据结构</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/24/tech/python/structure/str-search-and-kmp.html">字符串朴素匹配算法和KMP算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/03/tech/python/structure/josephus-solve.html">约瑟夫（Josephos）问题以及解法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/tech/python/structure/link-intro.html">链表介绍及python的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/09/tech/machine_learning/learn_large_datasets.html">在大数据下应用机器学习算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/08/tech/machine_learning/mini_batch_gradient_descent.html">小批量梯度下降算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/08/tech/machine_learning/stochastic_gradient_descent.html">随机梯度下降算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/08/tech/machine_learning/recommender_system.html">推荐系统和协同过滤算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/07/tech/machine_learning/anomaly_detection.html">异常检测（Anomaly Detection）</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/06/tech/machine_learning/dimensionality_reduction.html">PCA降维算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/06/tech/machine_learning/k_means_intro.html">K均值算法介绍</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://www.jianshu.com/u/f133ca80001f" title="爱吃鱼的夏侯莲子" target="_blank">爱吃鱼的夏侯莲子</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">DeepCode</a>&nbsp;|&nbsp;<a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener">苏ICP备20021898号-1</a>&nbsp;|&nbsp;<img class="nofancybox" src="../images/beian/icon.png" style="margin-bottom: -4px;"/><a href="http://www.beian.gov.cn/" target="_blank" rel="noopener">苏公网安备 32059002003042号</a><div class="ss"> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

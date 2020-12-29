@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="这里记录了我在编程时遇到的一些问题，和解决这些问题的一些方法。还有一些是我对编程的一些看法观点，以及学习语言时的一些笔记和心得体会。"><title>评估学习算法 | DeepCode</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">评估学习算法</h1><a id="logo" href="/.">DeepCode</a><p class="description">高岸为谷，深谷为陵</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/tags/"><i class="fa fa-tag"> 标签</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">评估学习算法</h1><div class="post-meta">Jan 26, 2020<span> | </span><span class="category"><a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><i class="fa fa-keyboard-o"></i><span class="post-count"> 1.6k</span><span class="post-meta-item-text"> 字</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><i class="fa fa-hourglass-half"></i><span class="post-count"> 6</span><span class="post-meta-item-text"> 分钟</span></span></span></div><div class="post-content"><p>在使用学习算法解决机器学习问题时，可能预测函数的误差很小，但是这个学习算法不确定是不是准确的，因为可能出现过拟合的情况。</p>
+<p>因为仅仅用一个训练集来判断学习算法是否准确是不行的，为此我们需要将原始数据集拆分成三个：</p>
+<ul>
+<li>训练集 (Training set) 占60%</li>
+<li>交叉验证集 (Cross validation set) 占20%</li>
+<li>测试集 (Test set) 占20%</li>
+</ul>
+<h2 id="学习模型的选择"><a href="#学习模型的选择" class="headerlink" title="学习模型的选择"></a>学习模型的选择</h2><p>例如在线性回归问题中，训练集有一个特征值$x$，在选择模型时，选择几次项：<br>1 .  $h_\theta(x)=\theta_0+\theta_1x$<br>2 .  $h_\theta(x)=\theta_0+\theta_1x+\theta_2x^2$<br>3 .  $h_\theta(x)=\theta_0+\theta_1x+…+\theta_3x^3$<br>…<br>10 . $h_\theta(x)=\theta_0+\theta_1x+…+\theta_{10}x^{10}$</p>
+<p>首先分成三个样本集：<br>训练集：$(x^{(1)},y^{(1)}), (x^{(2)},y^{(2)}), …, (x^{(m)},y^{(m)})$<br>交叉验证集：$(x_{cv}^{(1)},y_{cv}^{(1)}), (x_{cv}^{(2)},y_{cv}^{(2)}), …, (x_{cv}^{(m_{cv})},y_{cv}^{(m_{cv})})$<br>测试集：$(x_{test}^{(1)},y_{test}^{(1)}), (x_{test}^{(2)},y_{test}^{(2)}), …, (x_{test}^{(m_{test})},y_{test}^{(m_{test})})$</p>
+<p>分开的三个样本集上的误差：<br>$J_{train}(\Theta)=\frac{1}{2m} \sum_{i=0}^m(h_\theta(x^{(i)})-y^{(i)})^2$<br>$J_{cv}(\Theta)=\frac{1}{2m_{cv}} \sum_{i=0}^{m_{cv}}(h_\theta(x_{cv}^{(i)})-y_{cv}^{(i)})^2$<br>$J_{test}(\Theta)=\frac{1}{2m_{test}} \sum_{i=0}^{m_{test}}(h_\theta(x_{test}^{(i)})-y_{test}^{(i)})^2$</p>
+<p>选择模型的步骤：</p>
+<ul>
+<li>将上面十个模型在训练集上优化每个模型的参数$\theta$；</li>
+<li>在交叉验证集上找出一个误差最小的模型；</li>
+<li>在测试集上用$J_{test}(\Theta)$来估计泛化误差。</li>
+</ul>
+<p>这样的操作是的测试集与训练集，交叉验证集完全分离开，互不影响。在测试集上的泛化误差比较准确。</p>
+<h2 id="偏差（Bias）和方差（Variance）"><a href="#偏差（Bias）和方差（Variance）" class="headerlink" title="偏差（Bias）和方差（Variance）"></a>偏差（Bias）和方差（Variance）</h2><p>当一个算法在使用时并不理想，会有两种情况，高偏差（欠拟合）或高方差（过拟合）。</p>
+<p>还是上面的线性回归例子。通过选择不同模型，比较它们在训练集和交叉验证集上的表现结果：</p>
+<img width="50%" src="/images/ml_19.jpg" alt="">
+
+<p>上图中，x轴是多项式的次数，可以看作是函数的复杂程度，y轴是代价函数的值。</p>
+<p><strong>在训练集上：</strong>当函数简单时，代价函数值很大，预测函数效果不好，随着多项式的增加，函数复杂度的增加，拟合效果越来越小，代价趋向于零。<br><strong>在交叉验证集上：</strong>当函数简单时，代价函数值很大，预测函数效果不好，多项式在增加到一定程度前，代价一直在下降，当下降到一定程度是，代价函数又会上升，拟合效果又变差了。</p>
+<p><strong>高偏差（Bias）：</strong>$J_{train}(\Theta)$和$J_{cv}(\Theta)$都很高，而且两者非常接近，$J_{train}(\Theta)\approx J_{cv}(\Theta)$<br><strong>高方差（Variance）：</strong>$J_{train}(\Theta)$很小，$J_{cv}(\Theta)$远远大于$J_{train}(\Theta)$</p>
+<p>在实际使用时，需要在中间找一个平衡点，避免高偏差和高方差</p>
+<h2 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h2><p>通过正则化能够解决过拟合的问题，但是它在欠拟合也就是高偏差情况下效果并不明显。</p>
+<p>上面的线性回归例子，选择一个模型：<br>$$h_\theta(x)=\theta_0+\theta_1x+\theta_2x^2+\theta_3x^3+\theta_4x^4$$<br>它的正则化后的代价函数：<br>$$ J(\theta)= \frac{1}{2m} \sum_{i=0}^m (h_\theta(x^{(i)})-y^{(i)})^2 + \frac{\lambda}{2m} \sum_{j=1}^n\theta_j^2 $$</p>
+<p><em>PS: 上面的$J_{train}(\Theta),J_{cv}(\Theta),J_{test}(\Theta)$定义里面没有加上正则化，所以上面的训练集，交叉验证集，测试集都是在没有正则化的情况的误差</em></p>
+<p>现在我们要做的是先选择一系列的$\lambda$值，比如:<br>0, 0.01, 0.02, 0.04, 0.08, 0.16, 0.32, 0.64, 1.28, 2.56, 5.12, 10.24<br>通过正则化得出优化的参数$\theta$。</p>
+<p>然后使用这些优化参数得出$J_{train}(\Theta),J_{cv}(\Theta)$<br>$J_{train}(\Theta)=\frac{1}{2m} \sum_{i=0}^m(h_\theta(x^{(i)})-y^{(i)})^2$<br>$J_{cv}(\Theta)=\frac{1}{2m_{cv}} \sum_{i=0}^{m_{cv}}(h_\theta(x_{cv}^{(i)})-y_{cv}^{(i)})^2$<br><strong>注意，这里的误差都没有加上正则化项目</strong></p>
+<p>比较每个$\lambda$值下的代价函数的曲线：</p>
+<img width="50%" src="/images/ml20.png" alt="">
+
+<p><strong>在训练集上：</strong> 随着$\lambda$的增大，代价函数的值越来越大，效果越来越差。<br><strong>在交叉验证集上：</strong> 先随着$\lambda$在一定范围下增大，代价函数的值在减小，超过一个程度后，代价函数会增大。</p>
+<p>当$\lambda$为0，或很小时，是高方差；当$\lambda$过大时，是高偏差。</p>
+<p>同样的需要找一个$\lambda$使得代价函数在训练集和交叉验证集上平衡的。</p>
+<h2 id="学习曲线（Learning-Curves）"><a href="#学习曲线（Learning-Curves）" class="headerlink" title="学习曲线（Learning Curves）"></a>学习曲线（Learning Curves）</h2><p>画出随着样本集数量的增加，代价函数的值的变化曲线。<br>训练集和交叉验证集的误差：<br>$J_{train}(\Theta)=\frac{1}{2m} \sum_{i=0}^m(h_\theta(x^{(i)})-y^{(i)})^2$<br>$J_{cv}(\Theta)=\frac{1}{2m_{cv}} \sum_{i=0}^{m_{cv}}(h_\theta(x_{cv}^{(i)})-y_{cv}^{(i)})^2$</p>
+<p>当样本集数量很少时，训练集的误差很小，因为两三个样本总能够用一个直线达到不错的拟合效果，但是在交叉验证集上体现的并不好。<br>随着样本数量的增大，训练集的误差增大，而在交叉验证集上的体现会改善，误差会减小。</p>
+<p><strong>高偏差</strong><br>在高偏差情况下，随着样本数量的增大，训练集和验证集的误差趋向于相等，但是都会偏高，与预期效果不符。</p>
+<img width="50%" src="/images/ml_21.jpg" alt="高偏差学习曲线">
+
+<p><strong>高方差</strong><br>在高方差下，随着样本增加，训练集的误差会增加，但是增加的幅度很小；在验证集上，误差会减小，但是仍然大于训练集误差。</p>
+<img width="50%" src="/images/ml_22.jpg" alt="高方差学习曲线">
+
+
+<p>可以看出，在高方差下，增加样本数量会有助于算法的优化。但是在高偏差下，增加样本数量并没有多少用处。</p>
+<p>通过以上方法，在解决机器学习问题中，有以下方法可以帮助优化算法：</p>
+<ul>
+<li>获取更多样本：优化高方差</li>
+<li>减少特征值的数量：优化高方差</li>
+<li>添加特征值：优化高偏差</li>
+<li>添加多项式次数，复杂的预测函数：优化高偏差</li>
+<li>减小$\lambda$：解决高偏差</li>
+<li>增加$\lambda$：解决高方差</li>
+</ul>
+</div><div class="tags"><a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a href="/tags/%E7%AE%97%E6%B3%95%E4%BC%98%E5%8C%96/">算法优化</a></div><div class="post-nav"><a class="pre" href="/2020/01/27/tech/machine_learning/precision_and_recall.html">查准率（Precision）和召回率（Recall）</a><a class="next" href="/2020/01/20/tech/machine_learning/neural_network_backpropagation.html">神经网络的反向传播算法的使用</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/%E9%A9%AC%E6%8B%89%E6%9D%BE/" style="font-size: 10px;">马拉松</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/mysql/" style="font-size: 11.25px;">mysql</a> <a href="/tags/javascript/" style="font-size: 18.75px;">javascript</a> <a href="/tags/bootstrap/" style="font-size: 10px;">bootstrap</a> <a href="/tags/HTML/" style="font-size: 11.25px;">HTML</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">机器学习</a> <a href="/tags/%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/" style="font-size: 16.25px;">监督学习</a> <a href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" style="font-size: 12.5px;">逻辑回归</a> <a href="/tags/%E9%9D%9E%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">非监督学习</a> <a href="/tags/%E7%AE%97%E6%B3%95%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">算法优化</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" style="font-size: 13.75px;">线性回归</a> <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">神经网络</a> <a href="/tags/SVM/" style="font-size: 11.25px;">SVM</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/python/" style="font-size: 17.5px;">python</a> <a href="/tags/pandas/" style="font-size: 13.75px;">pandas</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 12.5px;">数据结构</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/24/tech/python/structure/str-search-and-kmp.html">字符串朴素匹配算法和KMP算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/03/tech/python/structure/josephus-solve.html">约瑟夫（Josephos）问题以及解法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/tech/python/structure/link-intro.html">链表介绍及python的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/09/tech/machine_learning/learn_large_datasets.html">在大数据下应用机器学习算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/08/tech/machine_learning/mini_batch_gradient_descent.html">小批量梯度下降算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/08/tech/machine_learning/stochastic_gradient_descent.html">随机梯度下降算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/08/tech/machine_learning/recommender_system.html">推荐系统和协同过滤算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/07/tech/machine_learning/anomaly_detection.html">异常检测（Anomaly Detection）</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/06/tech/machine_learning/dimensionality_reduction.html">PCA降维算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/06/tech/machine_learning/k_means_intro.html">K均值算法介绍</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://www.jianshu.com/u/f133ca80001f" title="爱吃鱼的夏侯莲子" target="_blank">爱吃鱼的夏侯莲子</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">DeepCode</a>&nbsp;|&nbsp;<a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener">苏ICP备20021898号-1</a>&nbsp;|&nbsp;<img class="nofancybox" src="../images/beian/icon.png" style="margin-bottom: -4px;"/><a href="http://www.beian.gov.cn/" target="_blank" rel="noopener">苏公网安备 32059002003042号</a><div class="ss"> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

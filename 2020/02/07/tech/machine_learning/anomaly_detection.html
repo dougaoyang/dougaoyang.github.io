@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="这里记录了我在编程时遇到的一些问题，和解决这些问题的一些方法。还有一些是我对编程的一些看法观点，以及学习语言时的一些笔记和心得体会。"><title>异常检测（Anomaly Detection） | DeepCode</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">异常检测（Anomaly Detection）</h1><a id="logo" href="/.">DeepCode</a><p class="description">高岸为谷，深谷为陵</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/tags/"><i class="fa fa-tag"> 标签</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">异常检测（Anomaly Detection）</h1><div class="post-meta">Feb 7, 2020<span> | </span><span class="category"><a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><i class="fa fa-keyboard-o"></i><span class="post-count"> 2.1k</span><span class="post-meta-item-text"> 字</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><i class="fa fa-hourglass-half"></i><span class="post-count"> 7</span><span class="post-meta-item-text"> 分钟</span></span></span></div><div class="post-content"><p>异常检测（Anomaly Detection）是机器学习算法的一个常见应用。它主要用于非监督学习，但又类似一些监督学习问题。</p>
+<p>异常检测常用在对网站异常用户的检测；还有在工程上一些零件，设备异常的检查；还有机房异常机器的监控等等</p>
+<h2 id="概念说明"><a href="#概念说明" class="headerlink" title="概念说明"></a>概念说明</h2><p>假设有数据集$x^{(1)},x^{(2)},…,x^{(m)}$，当又有一个新的测试样本$x_{test}$；<br>想要知道这个新样本是否是异常的；<br>首先对x的分布概率建模p(x) ，用来说明这个例子不是异常的概率；<br>然后定一个阈值$\epsilon$，当$p(x)&lt;\epsilon$时说明是异常的。</p>
+<img width="40%" src="/images/ml_33.jpg" alt="">
+
+<p>当出现在高概率分布的区域时，说明该例子时正常的；当出现在低概率的区域时，说明是异常的。</p>
+<h2 id="高斯分布"><a href="#高斯分布" class="headerlink" title="高斯分布"></a>高斯分布</h2><p>高斯分布又被称之为正态分布，曲线呈钟型，两头低，中间高，左右对称因其曲线呈钟形，因此人们又经常称之为钟形曲线</p>
+<img width="40%" src="/images/ml_34.jpg" alt="">
+
+<p>假设x是一个实数随机变量，如果它的概率分布为高斯分布，定义几个变量：<br>$\mu$=平均值<br>$\sigma$=标准差<br>$\sigma^2$=方差<br>那么x的概率分布可以用公式来表示：<br>$$x \sim \mathcal{N}(\mu, \sigma^2)$$</p>
+<p>其平均值$\mu$决定了其位置，其标准差$σ\sigma$决定了分布的幅度</p>
+<p>完整的高斯分布的概率公式为：<br>$$\large p(x;\mu,\sigma^2) = \dfrac{1}{\sigma\sqrt{(2\pi)}}exp(-\dfrac{1}{2}(\dfrac{x - \mu}{\sigma})^2)$$</p>
+<p>当参数平均值$\mu$和标准差$\sigma$变化时：</p>
+<div style="display:flex;">
+<img  src="/images/ml35.jpg" alt="">
+<img  src="/images/ml36.jpg" alt="">
+<img  src="/images/ml37.jpg" alt="">
+<img  src="/images/ml38.jpg" alt="">
+</div>
+
+<p>关于平均值和方差的求解：<br>$$\mu=\frac{1}{m}\sum_{i=1}^m x^{(i)}, \sigma^2=\frac{1}{m}\sum_{i=1}^m (x^{(i)} - \mu)^2 $$</p>
+<h2 id="异常检测算法"><a href="#异常检测算法" class="headerlink" title="异常检测算法"></a>异常检测算法</h2><p>在一个异常检测的例子中，有m个训练样本，每个样本的特征值数量有n个，那么某个样本的分布概率模型p(x)就可以用样本的每个特征值的概率分布来计算：<br>$$p(x) = p(x_1;\mu_1,\sigma_1^2)p(x_2;\mu_2,\sigma^2_2)\cdots p(x_n;\mu_n,\sigma^2_n)$$<br>上面的式子可以用更简洁的方式来表达<br>$$p(x) = \displaystyle \prod^n_{j=1} p(x_j;\mu_j,\sigma_j^2)$$</p>
+<p>总计一下，异常检测的过程：</p>
+<ol>
+<li>在训练样本中提取觉得可能会导致异常的特征值$x_i$</li>
+<li>计算训练样本的参数$\mu_1,…,\mu_n,\sigma_1^2,…,\sigma_n^2$<br>$$\mu_j=\frac{1}{m}\sum_{i=1}^m x_j^{(i)}, \sigma_j^2=\frac{1}{m}\sum_{i=1}^m (x_j^{(i)} - \mu_j)^2 $$</li>
+<li>当有一个新的测试样本$x_{test}$时，计算它的分布概率：<br>$$p(x) = \displaystyle \prod^n_{j=1} p(x_j;\mu_j,\sigma_j^2) = \prod\limits^n_{j=1} \dfrac{1}{\sqrt{2\pi}\sigma_j}exp(-\dfrac{(x_j - \mu_j)^2}{2\sigma^2_j})$$</li>
+<li>和阈值ϵ比较，当 p(x)&lt;ϵ 时，则为异常。</li>
+</ol>
+<h2 id="评估异常检测算法"><a href="#评估异常检测算法" class="headerlink" title="评估异常检测算法"></a>评估异常检测算法</h2><p>如何评估一个异常检测算法，以及如何开发一个关于异常检测的应用：</p>
+<p>首先，在获取到的一堆数据中，取一大部分正常的（可能包含少部分异常）的数据用于训练集来训练分布概率公式p(x)。</p>
+<p>然后，在交叉验证和测试集中使用包含正常和一定比例异常的数据，来通过查准率和召回率，以及F值公式来评价一个算法。</p>
+<p><strong>举个例子</strong></p>
+<p>假设有：</p>
+<ul>
+<li>10000个正常的样本</li>
+<li>20个异常的样本</li>
+</ul>
+<p>下面分割一下训练集，交叉验证集和测试集：</p>
+<ul>
+<li>训练集：6000个正常的</li>
+<li>交叉验证集：2000个正常的+10个异常的</li>
+<li>测试集：2000个正常的+10个异常的</li>
+</ul>
+<p>在训练集上训练出概率分布函数p(x)<br>在交叉验证集上，预测y：</p>
+<p>$y = \begin{cases} 1 　　 p(x) &lt; \epsilon \\  0 　　 p(x) \geq \epsilon  \end{cases}$</p>
+<p>下面通过和真实标签的比较，可以计算出 查准率（Precision）和召回率（Recall），然后通过F值公式来得到一个数值。</p>
+<p>我们可以通过改变不同的阈值$\epsilon$从而得到不同的评价系数来选取一个最佳的阈值。<br>当得到的评价系数不佳时，也可以通过改变特征值的种类和数量来获取理想的评价系数</p>
+<h2 id="特征值的选择"><a href="#特征值的选择" class="headerlink" title="特征值的选择"></a>特征值的选择</h2><p>在使用异常检测时，对性能影响最大的因素是特征值的选择。</p>
+<p>首先要对特征向量使用高斯分布来建模，通常情况下，我们得到的原始数据并没有呈现高斯分布，例如这种：</p>
+<img width="40%" src="/images/ml39.jpg" alt="">
+
+
+<p>有几种方法可以实现：</p>
+<ul>
+<li>log(x)</li>
+<li>log(x+c)</li>
+<li>$\sqrt{x}$</li>
+<li>$x^{\frac{1}{3}}$</li>
+</ul>
+<p>通过上述办法，可以将数据转换成高斯分布的形式。</p>
+<p>异常检测有点类似监督学习中的二元分类问题。<br>我们的目标是使得p(x)对于正常的数据来说是大的，而对于异常的数据来说是很小的，而在异常检测中一个常见的问题是最终我们的到的p(x)对于正常和异常的都很大。<br>在这种情况下需要观察一下交叉验证集中的异常示例，尝试找出能更好区分数据的新特性。</p>
+<p><strong>例子</strong></p>
+<p>例如，有一个关于机房机器的样本示例，开始收集的样本示例中包含的特征值有关于cpu负载和网络流量的。</p>
+<p>cpu负载和网络流量是呈线性关系的，当网络流量变大时，cpu也会相应增大。</p>
+<p>现在有一个异常的示例是网络流量不大，cpu确负载很大。假如在只有这两个特征值的情况下运行异常检测算法得出的p(x)，可能就效果不佳。这时可以添加一个特征值，是流量和cpu的比例关系，这样就约束来上述的异常示例，通过这三个特征值得到的异常检测算法可能就会好一点。</p>
+<h2 id="异常检测和监督学习的区别"><a href="#异常检测和监督学习的区别" class="headerlink" title="异常检测和监督学习的区别"></a>异常检测和监督学习的区别</h2><p>异常检测一般用于：<br>样本中$y=1$的数量非常少（0-50个），而$y=0$的非常多。这样由于样本数量的过少，达不到良好的训练效果，而在异常检测中确能够表现良好。<br>还有就是导致$y=1$的情况非常多，且有不可预见性。</p>
+<p>监督学习一般用于：<br>样本中$y=1$和$y=0$的数量都非常多。这样就有足够的样本数量去训练算法。</p>
+<h2 id="多元高斯分布（Multivariate-Gaussian-Distribution）"><a href="#多元高斯分布（Multivariate-Gaussian-Distribution）" class="headerlink" title="多元高斯分布（Multivariate Gaussian Distribution）"></a>多元高斯分布（Multivariate Gaussian Distribution）</h2><p>多元高斯分布是异常检测的一种推广，它可能会检测到更多的异常。</p>
+<p>在原始高斯分布中，模型p(x)的搭建是通过分别计算$p(x_1),p(x_2),…,p(x_n)$来完成的，而多元高斯分布则是一步到位，直接计算出模型：<br>$$p(x;\mu,\Sigma) = \dfrac{1}{(2\pi)^{n/2} |\Sigma|^{1/2}} exp(-1/2(x-\mu)^T\Sigma^{-1}(x-\mu))$$<br><em>PS：$\Sigma$是一个协方差矩阵。</em></p>
+<p>通过改变$\mu$和$\Sigma$可以得到不同的多元高斯分布图：</p>
+<div style="display:flex;">
+<img  src="/images/ml40.jpg" alt="">
+<img  src="/images/ml41.jpg" alt="">
+<img  src="/images/ml42.jpg" alt="">
+<img  src="/images/ml43.jpg" alt="">
+</div>
+
+<p>原始高斯分布模型，它的多个特征值之间的关系是轴对齐的（axis-aligned），两个或多个高斯分布之间没有相关性。<br>而多元高斯分布能够自动捕获x的不同特征之间的相关性。因此它在图像上会现实椭圆或有斜率的椭圆。</p>
+<p>在平常的使用中，一般是使用原始高斯分布模型的，因为它的计算成本比较低。<br>在多元高斯分布中，因为要计算多个特征值之间的相关性，导致计算会慢很多，而且当特征值很多是，协方差矩阵就会很大，计算它的逆矩阵就会花费很多时间。</p>
+<h3 id="何时使用多元高斯分布"><a href="#何时使用多元高斯分布" class="headerlink" title="何时使用多元高斯分布"></a>何时使用多元高斯分布</h3><p>要保证样本数量m大于特征值数量n，否则协方差矩阵会不可逆；<br>根据经验法则，当$m&gt;10n$时，多元高斯分布会表现良好。</p>
+<p>在原始高斯分布模型中可以手动添加相关性高的特征值之间的关系，可以避免了使用多元高斯分布，减小计算成本。</p>
+</div><div class="tags"><a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a href="/tags/%E9%9D%9E%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/">非监督学习</a></div><div class="post-nav"><a class="pre" href="/2020/02/08/tech/machine_learning/recommender_system.html">推荐系统和协同过滤算法</a><a class="next" href="/2020/02/06/tech/machine_learning/dimensionality_reduction.html">PCA降维算法</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/%E9%A9%AC%E6%8B%89%E6%9D%BE/" style="font-size: 10px;">马拉松</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/mysql/" style="font-size: 11.25px;">mysql</a> <a href="/tags/javascript/" style="font-size: 18.75px;">javascript</a> <a href="/tags/bootstrap/" style="font-size: 10px;">bootstrap</a> <a href="/tags/HTML/" style="font-size: 11.25px;">HTML</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">机器学习</a> <a href="/tags/%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/" style="font-size: 16.25px;">监督学习</a> <a href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" style="font-size: 12.5px;">逻辑回归</a> <a href="/tags/%E9%9D%9E%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">非监督学习</a> <a href="/tags/%E7%AE%97%E6%B3%95%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">算法优化</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" style="font-size: 13.75px;">线性回归</a> <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">神经网络</a> <a href="/tags/SVM/" style="font-size: 11.25px;">SVM</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/python/" style="font-size: 17.5px;">python</a> <a href="/tags/pandas/" style="font-size: 13.75px;">pandas</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 12.5px;">数据结构</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/24/tech/python/structure/str-search-and-kmp.html">字符串朴素匹配算法和KMP算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/03/tech/python/structure/josephus-solve.html">约瑟夫（Josephos）问题以及解法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/tech/python/structure/link-intro.html">链表介绍及python的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/09/tech/machine_learning/learn_large_datasets.html">在大数据下应用机器学习算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/08/tech/machine_learning/mini_batch_gradient_descent.html">小批量梯度下降算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/08/tech/machine_learning/stochastic_gradient_descent.html">随机梯度下降算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/08/tech/machine_learning/recommender_system.html">推荐系统和协同过滤算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/07/tech/machine_learning/anomaly_detection.html">异常检测（Anomaly Detection）</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/06/tech/machine_learning/dimensionality_reduction.html">PCA降维算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/06/tech/machine_learning/k_means_intro.html">K均值算法介绍</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://www.jianshu.com/u/f133ca80001f" title="爱吃鱼的夏侯莲子" target="_blank">爱吃鱼的夏侯莲子</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">DeepCode</a>&nbsp;|&nbsp;<a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener">苏ICP备20021898号-1</a>&nbsp;|&nbsp;<img class="nofancybox" src="../images/beian/icon.png" style="margin-bottom: -4px;"/><a href="http://www.beian.gov.cn/" target="_blank" rel="noopener">苏公网安备 32059002003042号</a><div class="ss"> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
